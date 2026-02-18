@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: sb-demo
+app:
+  hello:
+    greeting: Hello
