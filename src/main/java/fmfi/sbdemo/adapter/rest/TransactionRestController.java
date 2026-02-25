@@ -2,6 +2,9 @@ package fmfi.sbdemo.adapter.rest;
 
 import fmfi.sbdemo.core.api.*;
 import fmfi.sbdemo.core.api.dto.*;
+import fmfi.sbdemo.exceptions.InternalServerError;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController // register this class as Spring MVC REST controller
@@ -15,7 +18,12 @@ public class TransactionRestController {
     public CurrentAccountTransactionsDto getLatestCurrentAccountTransactions(
             @PathVariable(name = "accountNumber") String accountNumber
     ) {
-        return getLatestCurrentAccountTransactionsUseCase.getLatestCurrentAccountTransactions(accountNumber);
+        try {
+            return getLatestCurrentAccountTransactionsUseCase.getLatestCurrentAccountTransactions(accountNumber);
+        } catch (Exception e) {
+            throw new InternalServerError(e.getMessage(), "500 error", "request failed");
+        }
+
     }
 }
 
