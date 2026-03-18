@@ -1,0 +1,74 @@
+version: '3.4'
+
+volumes:
+  postgres_data:
+    driver: local
+  postgres_data2:
+    driver: local
+# SEM PRÍDE DEFINÍCIA VOLUMES (časť zadania 3)
+
+services:
+#
+#  java-build:
+
+
+  # SEM PRÍDE ZADANIE 6
+
+  java:
+    ## SEM PRÍDE ZADANINE 5
+
+    ## Nastavenie aplikácie cez premenné prostredia vám sem uvádzam, aby ste toto nemuseli riešiť
+    # Všimnite si, že application.yaml hodnoty vieme meniť cez premenné prostredia - takto meníme jdbc url na
+    # postgres databázu. V prípade, že chcete skúsiť postgres2, treba obe hodnoty zmeniť adekvátne takto:
+    # - SPRING_PROFILES_ACTIVE=postgres2
+    # - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres2:5432/cloud
+    #default pre postgres1:
+    container_name: matfiz-app
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    networks:
+      - postgres-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=postgres
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://matfiz-postgres:5432/cloud
+
+
+  postgres2:
+  ## SEM PRÍDE ZADANIE 4
+    container_name: matfiz-postgres2
+    build:
+      context: .
+      dockerfile: docker/postgresql/Dockerfile
+    volumes:
+      - postgres_data2:/var/lib/postgresql
+    ports:
+      - "5433:5432"
+    networks:
+      - postgres-network
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: cloud
+
+  postgres1:
+    ## SEM PRÍDE ZADANIE 2 + 3
+    container_name: matfiz-postgres
+    image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres-network
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: cloud
+
+
+networks:
+  postgres-network:
+    driver: bridge
+## SEM PRÍDE DEFINÍCIA NETWORKu (zo zadania 5)
