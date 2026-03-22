@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-deployment
+  labels:
+    app: myapp
+    type: back-end
+spec:
+  template:
+    metadata:
+      name: myapp-pod
+      labels:
+        app: myapp
+        type: back-end
+    spec:
+      containers:
+        - name: sb-demo-java-container
+          image: linaiva/sb-demo-java:latest
+  replicas: 1
+  selector:
+    matchLabels:
+      type: back-end
