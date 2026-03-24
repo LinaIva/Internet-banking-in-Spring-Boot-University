@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: myapp-configmap
+  namespace: matfiz
+data:
+  SPRING_PROFILES_ACTIVE: postgres
+  SPRING_DATASOURCE_URL: jdbc:postgresql://matfiz-postgres:5432/cloud

@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+  labels:
+    app: postgres
+    type: database
+spec:
+  template:
+    metadata:
+      name: postgres-myapp-pod
+      labels:
+        app: postgres
+        type: database
+    spec:
+      containers:
+        - name: postgres-container
+          image: linaiva/postgres:latest
+  replicas: 1
+  selector:
+    matchLabels:
+      type: database
